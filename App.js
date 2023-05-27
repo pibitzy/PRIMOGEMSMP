@@ -1,3 +1,8 @@
+/*
+Mikel telah menambahkan banyak komen yang dapat membantu
+Jika ada pertanyaan lebih lanjut, tanya mikel
+*/
+// Import fitur-fitur penting
 import { useEffect, useState } from "react";
 import "./styles.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -16,20 +21,41 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+// Client ID dan Client Secret
 const clientID = "eeef045c75e5488f8543305bc2be05f4";
 const clientSecret = "29882680ac4c4d0fb9ae342280a7101c";
 
-export default function App() {
-  const [searchingInput, setSearchingInput] = useState("");
-  const [token, setToken] = useState("");
-  const [tracks, setTracks] = useState([]);
-  const [albums, setAlbums] = useState([]);
-  const [selectedAlbum, setSelectedAlbum] = useState(null);
-  const [selectedTrack, setSelectedTrack] = useState(null);
+/*
+PERHATIAN!!!
+Beberapa dependencies yang harus diinstall adalah sebagai berikut:
+1. Bootstrap
+2. font-awesome
+3. loader-utils
+4. react
+5. react-bootstrap
+6. react-dom
+7. react-scripts
+8. react-slick
+9. slick-carousel
 
-  // API interaction
+Program dapat mengalami gangguan jika tidak menginstall dependencies tersebut
+*/
+
+export default function App() {
+  // Hooks
+  const [searchingInput, setSearchingInput] = useState(""); // Fitur Search
+  const [token, setToken] = useState(""); // Token untuk mengakses konten Spotify
+  const [albums, setAlbums] = useState([]); // Albums hasil search
+  const [tracks, setTracks] = useState([]); // Tracks hasil search
+  const [selectedAlbum, setSelectedAlbum] = useState(null); // Fitur pop up ketika album di klik
+  const [selectedTrack, setSelectedTrack] = useState(null); // Fitur pop up ketika track di klik
+  const [favoriteAlbums, setFavoriteAlbums] = useState([]); // Fitur Favorite
+  const [favoriteTracks, setFavoriteTracks] = useState([]); // Fitur Favorite
+  const [showFavorites, setShowFavorites] = useState(false); // Fitur Favorite
+
+  // Interaksi dengan API
   useEffect(() => {
-    // Access token from Spotify
+    // Meminta access token dari Spotify
     var parameters = {
       method: "POST",
       headers: {
@@ -47,28 +73,10 @@ export default function App() {
       .then((data) => setToken(data.access_token));
   }, []);
 
+  // Di beranda, masukkan albums populer
   useEffect(() => {
-    // Fetch popular albums
-    if (token) {
-      var searchP = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token
-        }
-      };
+    const limit = 50; // Jumlah maksimal konten yang dapat diambil
 
-      fetch("https://api.spotify.com/v1/browse/new-releases?limit=5", searchP)
-        .then((response) => response.json())
-        .then((data) => {
-          setAlbums(data.albums.items);
-        })
-        .catch((error) => console.log(error));
-    }
-  }, [token]);
-
-  useEffect(() => {
-    // Fetch popular tracks
     if (token) {
       var searchP = {
         method: "GET",
@@ -79,7 +87,33 @@ export default function App() {
       };
 
       fetch(
-        "https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M/tracks?limit=5",
+        "https://api.spotify.com/v1/browse/new-releases?limit=" + limit,
+        searchP
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setAlbums(data.albums.items);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [token]);
+
+  // Di beranda, masukkan tracks populer
+  useEffect(() => {
+    const limit = 50; // Jumlah maksimal konten yang dapat diambil
+
+    if (token) {
+      var searchP = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token
+        }
+      };
+
+      fetch(
+        "https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M/tracks?limit=" +
+          limit,
         searchP
       )
         .then((response) => response.json())
@@ -90,9 +124,16 @@ export default function App() {
     }
   }, [token]);
 
-  //  Searching function
+  //  Fitur search
   async function search() {
-    // Search artist ID
+    /*
+    Penjelasan
+    Fitur search akan menerima input dari user berupa nama artist, kemudian
+    program akan mencari album dan track yang relevan berdasarkan ID dari
+    artist tersebut
+    */
+
+    // Meminta ID dari artist
     var searchP = {
       method: "GET",
       headers: {
@@ -109,7 +150,7 @@ export default function App() {
         return data.artists.items[0].id;
       });
 
-    // Get album according to artist ID
+    // Mendapatkan albums berdasarkan artist ID
     var albumsResult = await fetch(
       "https://api.spotify.com/v1/artists/" +
         artistID +
@@ -123,6 +164,7 @@ export default function App() {
         setAlbums(data.items);
       });
 
+    // Mendapatkan tracks berdasarkan artist ID
     var tracksResult = await fetch(
       "https://api.spotify.com/v1/artists/" +
         artistID +
@@ -137,22 +179,98 @@ export default function App() {
       });
   }
 
-  // Open modal for album details
+  // Modal digunakan untuk pop up window album dan track
   const openAlbumModal = (album) => {
-    setSelectedAlbum(album);
+    if (!favoriteAlbums.includes(album)) {
+      setSelectedAlbum(album);
+    }
   };
 
-  // Open modal for track details
   const openTrackModal = (track) => {
-    setSelectedTrack(track);
+    if (!favoriteTracks.includes(track)) {
+      setSelectedTrack(track);
+    }
   };
 
-  // Close modal
+  // Menutup modal dari album dan track
   const closeModal = () => {
     setSelectedAlbum(null);
     setSelectedTrack(null);
   };
 
+  // Fitur add to favorite - Dapat menambahkan lagu atau album ke list favorit
+  const addToFavorites = (item) => {
+    if (
+      item.type === "album" &&
+      favoriteAlbums.length < 10 &&
+      !favoriteAlbums.some((album) => album.id === item.item.id)
+    ) {
+      setFavoriteAlbums([...favoriteAlbums, item.item]);
+    } else if (
+      item.type === "track" &&
+      favoriteTracks.length < 10 &&
+      !favoriteTracks.includes(item.item)
+    ) {
+      setFavoriteTracks([...favoriteTracks, item.item]);
+    }
+  };
+
+  // Fitur remove from favorite - Dapat membuang lagu atau album dari list favorit
+  const removeFromFavorites = (item) => {
+    if (item.type === "album") {
+      setFavoriteAlbums(
+        favoriteAlbums.filter((album) => album.id !== item.item.id)
+      );
+    } else if (item.type === "track") {
+      setFavoriteTracks(favoriteTracks.filter((track) => track !== item.item));
+    }
+  };
+
+  // Pop up window untuk fitur favorite
+  const FavoritesModal = () => {
+    return (
+      <Modal show={showFavorites} onHide={() => setShowFavorites(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Favorites</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {favoriteAlbums.map((album, index) => (
+            <Nav.Link key={index}>
+              {album.name} (Album)
+              <Button
+                variant="link"
+                onClick={() =>
+                  removeFromFavorites({ type: "album", item: album })
+                }
+              >
+                Remove
+              </Button>
+            </Nav.Link>
+          ))}
+          {favoriteTracks.map((track, index) => (
+            <Nav.Link key={index}>
+              {track.name} (Track)
+              <Button
+                variant="link"
+                onClick={() =>
+                  removeFromFavorites({ type: "track", item: track })
+                }
+              >
+                Remove
+              </Button>
+            </Nav.Link>
+          ))}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowFavorites(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  };
+
+  // Slider yang digunakan ketika konten yang ada lebih panjang daripada panjang website
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -161,9 +279,10 @@ export default function App() {
     slidesToScroll: 5
   };
 
+  // Kembalikan hasil (untuk kemudahan membaca, mikel sudah membagi ke beberapa bagian)
   return (
     <div className="App">
-      {/* Menu Section */}
+      {/* Navigation Bar Section */}
       <Navbar bg="light" expand="lg" className="justify-content-end">
         <Navbar.Brand>
           <Image src="#" height="30" alt="Logo" />
@@ -173,6 +292,42 @@ export default function App() {
           <Nav className="ml-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#about">About</Nav.Link>
+            <Nav.Link onClick={() => setShowFavorites(!showFavorites)}>
+              Favorites ({favoriteAlbums.length + favoriteTracks.length})
+            </Nav.Link>
+            {showFavorites && (
+              <FavoritesModal
+                favoriteAlbums={favoriteAlbums}
+                favoriteTracks={favoriteTracks}
+                removeFromFavorites={removeFromFavorites}
+              />
+            )}
+            {favoriteAlbums.map((album, index) => (
+              <Nav.Link key={index}>
+                {album.name} (Album)
+                <Button
+                  variant="link"
+                  onClick={() =>
+                    removeFromFavorites({ type: "album", item: album })
+                  }
+                >
+                  Remove
+                </Button>
+              </Nav.Link>
+            ))}
+            {favoriteTracks.map((track, index) => (
+              <Nav.Link key={index}>
+                {track.name} (Track)
+                <Button
+                  variant="link"
+                  onClick={() =>
+                    removeFromFavorites({ type: "track", item: track })
+                  }
+                >
+                  Remove
+                </Button>
+              </Nav.Link>
+            ))}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -204,7 +359,7 @@ export default function App() {
         </Button>
       </Container>
 
-      {/* Album Section */}
+      {/* Albums Section */}
       <Container>
         <Row className="mx-2">
           <Col>
@@ -262,7 +417,7 @@ export default function App() {
         </Row>
       </Container>
 
-      {/* Album pop-up window when selected */}
+      {/* Pop up window Albums ketika ditekan user */}
       <Modal show={selectedAlbum !== null} onHide={closeModal}>
         <Modal.Header closeButton>
           <Modal.Title>Album Details</Modal.Title>
@@ -274,7 +429,20 @@ export default function App() {
               <h2>Release Date: {selectedAlbum.release_date}</h2>
               <h2>Tracks Total: {selectedAlbum.total_tracks}</h2>
               <h2>Artist: {selectedAlbum.artists[0].name}</h2>
-              {/* Display additional album details here */}
+              {/* Kalau mau, bisa tambahkan lebih banyak informasi mengenai albums di sini */}
+              {/* Untuk format data, bisa dilihat di spotify api web documentation */}
+              <Button
+                variant="primary"
+                onClick={() =>
+                  addToFavorites({ type: "album", item: selectedAlbum })
+                }
+                disabled={
+                  favoriteAlbums.includes(selectedAlbum) ||
+                  favoriteAlbums.length >= 10
+                }
+              >
+                Add to Favorite
+              </Button>
             </div>
           )}
         </Modal.Body>
@@ -285,7 +453,7 @@ export default function App() {
         </Modal.Footer>
       </Modal>
 
-      {/* Track pop-up window when selected */}
+      {/* Pop up window tracks ketika ditekan oleh user */}
       <Modal show={selectedTrack !== null} onHide={closeModal}>
         <Modal.Header closeButton>
           <Modal.Title>Track Details</Modal.Title>
@@ -297,7 +465,20 @@ export default function App() {
               <h2>Track Album: {selectedTrack.album.name}</h2>
               <h2>Release Date: {selectedTrack.album.release_date}</h2>
               <h2>Artist: {selectedTrack.artists[0].name}</h2>
-              {/* Display additional track details here */}
+              {/* Kalau mau, bisa tambahkan lebih banyak informasi mengenai tracks di sini */}
+              {/* Untuk format data, bisa dilihat di spotify api web documentation */}
+              <Button
+                variant="primary"
+                onClick={() =>
+                  addToFavorites({ type: "track", item: selectedTrack })
+                }
+                disabled={
+                  favoriteTracks.includes(selectedTrack) ||
+                  favoriteTracks.length >= 10
+                }
+              >
+                Add to Favorite
+              </Button>
             </div>
           )}
         </Modal.Body>
