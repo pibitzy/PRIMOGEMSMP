@@ -1,7 +1,17 @@
 import { useEffect, useState } from "react";
 import "./styles.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { Card, Button, Row, Col, Container, Modal } from "react-bootstrap";
+import {
+  Card,
+  Button,
+  Row,
+  Col,
+  Container,
+  Modal,
+  Navbar,
+  Nav,
+  Image
+} from "react-bootstrap";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -110,6 +120,20 @@ export default function App() {
 
   return (
     <div className="App">
+      {/* Menu Section */}
+      <Navbar bg="light" expand="lg" className="justify-content-end">
+        <Navbar.Brand>
+          <Image src="#" height="30" alt="Logo" />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ml-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#about">About</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+
       {/* Search Section */}
       <Container>
         <input
