@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../public/styles.css";
+import "./styles.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { Card, Button, Row, Col, Container, Modal } from "react-bootstrap";
 
@@ -13,7 +13,6 @@ export default function App() {
   const [albums, setAlbums] = useState([]);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [selectedTrack, setSelectedTrack] = useState(null);
-  const [initialDataLoaded, setInitialDataLoaded] = useState(false);
 
   // API interaction
   useEffect(() => {
@@ -32,51 +31,11 @@ export default function App() {
 
     fetch("https://accounts.spotify.com/api/token", parameters)
       .then((result) => result.json())
-      .then((data) => {
-        setToken(data.access_token);
-        setInitialDataLoaded(true);
-        fetchRecentlyPopular();
-      });
+      .then((data) => setToken(data.access_token));
   }, []);
 
-  // Fetch recently popular albums and tracks
-  const fetchRecentlyPopular = async () => {
-    var searchP = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token
-      }
-    };
-
-    // Get recently popular albums
-    var albumsResult = await fetch(
-      "https://api.spotify.com/v1/browse/new-releases?limit=8",
-      searchP
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setAlbums(data.albums.items);
-      });
-
-    // Get recently popular tracks
-    var tracksResult = await fetch(
-      "https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks?limit=8",
-      searchP
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setTracks(data.items.map((item) => item.track));
-      });
-  };
-
-  // Searching function
+  //  Searching function
   async function search() {
-    // Reset initial data
-    setInitialDataLoaded(false);
-    setAlbums([]);
-    setTracks([]);
-
     // Search artist ID
     var searchP = {
       method: "GET",
@@ -104,6 +63,7 @@ export default function App() {
     )
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setAlbums(data.items);
       });
 
@@ -116,10 +76,9 @@ export default function App() {
     )
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setTracks(data.tracks);
       });
-
-    setInitialDataLoaded(true);
   }
 
   // Open modal for album details
@@ -166,48 +125,37 @@ export default function App() {
           Search
         </Button>
       </Container>
-
-      {/* Albums Section */}
-      {initialDataLoaded && (
-        <Container>
-          <h1>Albums</h1>
-          <Row className="mx-2">
+      {/* Album Section */}
+      <Container>
+        <Row className="mx-2 row row-cols-4">
+          <Col className="col-sm-6">
+            <h1>Albums</h1>
             {albums.map((album, i) => {
               return (
-                <Col key={i} className="col-sm-2">
-                  <Card onClick={() => openAlbumModal(album)}>
-                    <Card.Img src={album.images[0].url} />
-                    <Card.Body>
-                      <Card.Title>{album.name}</Card.Title>
-                    </Card.Body>
-                  </Card>
-                </Col>
+                <Card key={i} onClick={() => openAlbumModal(album)}>
+                  <Card.Img src={album.images[0].url} />
+                  <Card.Body>
+                    <Card.Title>{album.name}</Card.Title>
+                  </Card.Body>
+                </Card>
               );
             })}
-          </Row>
-        </Container>
-      )}
-
-      {/* Tracks Section */}
-      {initialDataLoaded && (
-        <Container>
-          <h1>Tracks</h1>
-          <Row className="mx-2">
+          </Col>
+          <Col className="col-sm-6">
+            <h1>Tracks</h1>
             {tracks.map((track, i) => {
               return (
-                <Col key={i} className="col-sm-2">
-                  <Card onClick={() => openTrackModal(track)}>
-                    <Card.Img src={track.album.images[0].url} />
-                    <Card.Body>
-                      <Card.Title>{track.name}</Card.Title>
-                    </Card.Body>
-                  </Card>
-                </Col>
+                <Card key={i} onClick={() => openTrackModal(track)}>
+                  <Card.Img src={track.album.images[0].url} />
+                  <Card.Body>
+                    <Card.Title>{track.name}</Card.Title>
+                  </Card.Body>
+                </Card>
               );
             })}
-          </Row>
-        </Container>
-      )}
+          </Col>
+        </Row>
+      </Container>
 
       {/* Album pop up window when selected */}
       <Modal show={selectedAlbum !== null} onHide={closeModal}>
