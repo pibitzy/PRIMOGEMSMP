@@ -1,0 +1,39 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.carousel {
+  margin: 20px 0;
+}
+
+.slick-slide {
+  padding: 0 10px;
+}
+
+.slider-container {
+  overflow-x: scroll;
+  white-space: nowrap
+}
+
+.slider-card {
+  display: inline-block;
+  width: 200px;
+  margin-right: 10px;
+}
+
+.slider-card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+.slider-card .card-body {
+  padding: 10px;
+}
+
+.slider-card .card-title {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
