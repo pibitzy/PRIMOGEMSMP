@@ -47,6 +47,49 @@ export default function App() {
       .then((data) => setToken(data.access_token));
   }, []);
 
+  useEffect(() => {
+    // Fetch popular albums
+    if (token) {
+      var searchP = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token
+        }
+      };
+
+      fetch("https://api.spotify.com/v1/browse/new-releases?limit=5", searchP)
+        .then((response) => response.json())
+        .then((data) => {
+          setAlbums(data.albums.items);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [token]);
+
+  useEffect(() => {
+    // Fetch popular tracks
+    if (token) {
+      var searchP = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token
+        }
+      };
+
+      fetch(
+        "https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M/tracks?limit=5",
+        searchP
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setTracks(data.items.map((item) => item.track));
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [token]);
+
   //  Searching function
   async function search() {
     // Search artist ID
