@@ -32,6 +32,35 @@ export default function App() {
     fetch("https://accounts.spotify.com/api/token", parameters)
       .then((result) => result.json())
       .then((data) => setToken(data.access_token));
+
+    // Fetch recently popular tracks
+    var searchP = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
+      }
+    };
+
+    // Fetch recently popular tracks
+    fetch(
+      "https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks",
+      searchP
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setTracks(data.items.map((item) => item.track));
+      });
+
+    // Fetch recently popular albums
+    fetch(
+      "https://api.spotify.com/v1/browse/featured-playlists?country=US",
+      searchP
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setAlbums(data.playlists.items);
+      });
   }, []);
 
   //  Searching function
