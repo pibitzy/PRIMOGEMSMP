@@ -1,6 +1,83 @@
 .App {
-  font-family: sans-serif;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
   text-align: center;
+  background-image: linear-gradient(black, rgb(49, 0, 141));
+  color: #fff;
+  padding-top: 50px;
+}
+
+.navbar {
+  position: fixed;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  top: 0;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.search {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  border: 2px solid #fff;
+  margin: 8px auto;
+  margin-top: 50px;
+  border-radius: 40px;
+  background-color: #2a2a2a;
+}
+
+input {
+  text-align: center;
+  font-size: 100%;
+  width: 60%;
+  padding: 12px 20px;
+  border: 2px solid #2a2a2a;
+  color: #fff;
+  background-color: #2a2a2a;
+}
+
+.icon {
+  position: absolute;
+  width: 360px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  cursor: pointer;
+  margin-right: 80%;
+}
+
+.icon::before {
+  content: "";
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  transform: translate(-3px, -3px);
+}
+
+.icon::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 10px;
+  background: #fff;
+  transform: translate(5px, 5px) rotate(315deg);
+}
+
+.btn {
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 3px solid #2a2a2a;
+}
+
+.page-footer {
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .carousel {
@@ -13,7 +90,8 @@
 
 .slider-container {
   overflow-x: scroll;
-  white-space: nowrap
+  white-space: nowrap;
+  color: #000;
 }
 
 .slider-card {
