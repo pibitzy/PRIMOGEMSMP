@@ -4,8 +4,11 @@ Jika ada pertanyaan lebih lanjut, tanya mikel
 */
 // Import fitur-fitur penting
 import { useEffect, useState } from "react";
+import "./index.js";
 import "./styles.css";
 import "bootstrap/dist/css/bootstrap.css";
+import spotifyAPI from "./Spotify.png";
+import primogems from "./Primogems.png";
 import {
   Card,
   Button,
@@ -288,7 +291,7 @@ export default function App() {
         expand="lg"
       >
         <Navbar.Brand>
-          <Image clasName="logo" src="#" height="30" alt="Logo" />
+          <Image className="logo" src={primogems} height="30" alt="Logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -434,7 +437,13 @@ export default function App() {
         </p>
         <div class="col-12 col-md float-end">
           <p>Made by using</p>
-          <Image class="float-md-end" src="#" height="30" alt="Spotify" />
+
+          <Image
+            class="float-md-end"
+            src={spotifyAPI}
+            height="30"
+            alt="Spotify"
+          />
         </div>
       </div>
 
