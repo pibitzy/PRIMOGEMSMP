@@ -3,17 +3,14 @@
   text-align: center;
   background-image: linear-gradient(black, rgb(49, 0, 141));
   color: #fff;
-  padding-top: 50px;
 }
 
 .navbar {
-  position: fixed;
   justify-content: end;
   align-items: center;
   width: 100%;
   top: 0;
   overflow: hidden;
-  z-index: 9999;
 }
 
 .search {
