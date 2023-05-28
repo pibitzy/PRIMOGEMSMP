@@ -283,9 +283,12 @@ export default function App() {
   return (
     <div className="App">
       {/* Navigation Bar Section */}
-      <Navbar bg="light" expand="lg" className="justify-content-end">
+      <Navbar
+        className="navbar navbar-dark bg-dark justify-content-end"
+        expand="lg"
+      >
         <Navbar.Brand>
-          <Image src="#" height="30" alt="Logo" />
+          <Image clasName="logo" src="#" height="30" alt="Logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -334,36 +337,40 @@ export default function App() {
 
       {/* Search Section */}
       <Container>
-        <input
-          placeholder="Search by Artist"
-          type="input"
-          onChange={(event) => {
-            setSearchingInput(event.target.value);
-          }}
-          onKeyPress={(event) => {
-            if (event.key === "Enter" && searchingInput !== "") {
-              // Jika sudah tekan enter, lakukan searching sesuai input
-              search();
-            }
-          }}
-        />
+        <div class="search">
+          <div class="icon"></div>
+          <input
+            placeholder="Search by Artist"
+            type="input"
+            onChange={(event) => {
+              setSearchingInput(event.target.value);
+            }}
+            onKeyPress={(event) => {
+              if (event.key === "Enter" && searchingInput !== "") {
+                // Jika sudah tekan enter, lakukan searching sesuai input
+                search();
+              }
+            }}
+          />
 
-        <Button
-          onClick={() => {
-            if (searchingInput !== "") {
-              search();
-            }
-          }}
-        >
-          Search
-        </Button>
+          <Button
+            className="btn btn-dark"
+            onClick={() => {
+              if (searchingInput !== "") {
+                search();
+              }
+            }}
+          >
+            Search
+          </Button>
+        </div>
       </Container>
 
       {/* Albums Section */}
       <Container>
         <Row className="mx-2">
           <Col>
-            <h1>Albums</h1>
+            <h1 class="mt-4">Albums</h1>
             <div className="slider-container">
               {albums.length > 0 ? (
                 albums.map((album, i) => (
@@ -392,7 +399,7 @@ export default function App() {
       <Container>
         <Row className="mx-2">
           <Col>
-            <h1>Tracks</h1>
+            <h1 class="mt-4">Tracks</h1>
             <div className="slider-container">
               {tracks.length > 0 ? (
                 tracks.map((track, i) => (
@@ -416,6 +423,20 @@ export default function App() {
           </Col>
         </Row>
       </Container>
+
+      {/* Footer */}
+      <div
+        class="page-footer row text-white border bg-dark p-4 mt-5 justify-content-end"
+        expand="lg"
+      >
+        <p class="col-12 col-md text-md-start ms-md-2 text-center">
+          Ⓒ Primogems Project 2023. All Rights Reserved.
+        </p>
+        <div class="col-12 col-md float-end">
+          <p>Made by using</p>
+          <Image class="float-md-end" src="#" height="30" alt="Spotify" />
+        </div>
+      </div>
 
       {/* Pop up window Albums ketika ditekan user */}
       <Modal show={selectedAlbum !== null} onHide={closeModal}>
