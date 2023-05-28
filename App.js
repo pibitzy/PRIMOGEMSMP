@@ -1,11 +1,10 @@
-/*
-Mikel telah menambahkan banyak komen yang dapat membantu
-Jika ada pertanyaan lebih lanjut, tanya mikel
-*/
 // Import fitur-fitur penting
 import { useEffect, useState } from "react";
+import "./index.js";
 import "./styles.css";
 import "bootstrap/dist/css/bootstrap.css";
+import spotifyAPI from "./Spotify.png";
+import primogems from "./Primogems.png";
 import {
   Card,
   Button,
@@ -52,6 +51,7 @@ export default function App() {
   const [favoriteAlbums, setFavoriteAlbums] = useState([]); // Fitur Favorite
   const [favoriteTracks, setFavoriteTracks] = useState([]); // Fitur Favorite
   const [showFavorites, setShowFavorites] = useState(false); // Fitur Favorite
+  const [showAboutUs, setShowAboutUs] = useState(false); //Fitur About Us
 
   // Interaksi dengan API
   useEffect(() => {
@@ -279,7 +279,7 @@ export default function App() {
     slidesToScroll: 5
   };
 
-  // Kembalikan hasil (untuk kemudahan membaca, mikel sudah membagi ke beberapa bagian)
+  // Kembalikan hasil
   return (
     <div className="App">
       {/* Navigation Bar Section */}
@@ -288,13 +288,13 @@ export default function App() {
         expand="lg"
       >
         <Navbar.Brand>
-          <Image clasName="logo" src="#" height="30" alt="Logo" />
+          <Image className="logo" src={primogems} height="30" alt="Logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#about">About</Nav.Link>
+            <Nav.Link onClick={() => setShowAboutUs(true)}>About</Nav.Link>
             <Nav.Link onClick={() => setShowFavorites(!showFavorites)}>
               Favorites ({favoriteAlbums.length + favoriteTracks.length})
             </Nav.Link>
@@ -434,9 +434,46 @@ export default function App() {
         </p>
         <div class="col-12 col-md float-end">
           <p>Made by using</p>
-          <Image class="float-md-end" src="#" height="30" alt="Spotify" />
+
+          <Image
+            class="float-md-end"
+            src={spotifyAPI}
+            height="30"
+            alt="Spotify"
+          />
         </div>
       </div>
+
+      <Modal show={showAboutUs} onHide={() => setShowAboutUs(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>About Us</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="profile-container">
+            <div className="profile">
+              <img src="pibi.jpg" alt="Profile Picture" />
+              <a href="https://www.instagram.com/iuxtzy.vb/">Profile 1</a>
+            </div>
+            <div className="profile">
+              <img src="mikel.jpg" alt="Profile Picture" />
+              <a href="https://www.instagram.com/hartoyo_michael/">Profile 2</a>
+            </div>
+            <div className="profile">
+              <img src="citra.jpg" alt="Profile Picture" />
+              <a href="https://www.instagram.com/cicit_kyo/">Profile 3</a>
+            </div>
+            <div className="profile">
+              <img src="palen.jpg" alt="Profile Picture" />
+              <a href="https://www.instagram.com/valentjoseph.11/">Profile 4</a>
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowAboutUs(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       {/* Pop up window Albums ketika ditekan user */}
       <Modal show={selectedAlbum !== null} onHide={closeModal}>
@@ -450,8 +487,6 @@ export default function App() {
               <h2>Release Date: {selectedAlbum.release_date}</h2>
               <h2>Tracks Total: {selectedAlbum.total_tracks}</h2>
               <h2>Artist: {selectedAlbum.artists[0].name}</h2>
-              {/* Kalau mau, bisa tambahkan lebih banyak informasi mengenai albums di sini */}
-              {/* Untuk format data, bisa dilihat di spotify api web documentation */}
               <Button
                 variant="primary"
                 onClick={() =>
@@ -486,8 +521,6 @@ export default function App() {
               <h2>Track Album: {selectedTrack.album.name}</h2>
               <h2>Release Date: {selectedTrack.album.release_date}</h2>
               <h2>Artist: {selectedTrack.artists[0].name}</h2>
-              {/* Kalau mau, bisa tambahkan lebih banyak informasi mengenai tracks di sini */}
-              {/* Untuk format data, bisa dilihat di spotify api web documentation */}
               <Button
                 variant="primary"
                 onClick={() =>

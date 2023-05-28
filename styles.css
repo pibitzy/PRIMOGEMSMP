@@ -112,3 +112,32 @@ input {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.profile-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile {
+  width: 23%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.profile img {
+  width: 100%;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.profile a {
+  display: block;
+  color: #333;
+  text-decoration: none;
+}
+
+.profile a:hover {
+  text-decoration: underline;
+}
