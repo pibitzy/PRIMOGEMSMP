@@ -1,11 +1,18 @@
-/*
-Mikel telah menambahkan banyak komen yang dapat membantu
-Jika ada pertanyaan lebih lanjut, tanya mikel
-*/
 // Import fitur-fitur penting
 import { useEffect, useState } from "react";
+import "./index.js";
 import "./styles.css";
 import "bootstrap/dist/css/bootstrap.css";
+import spotifyAPI from "./images/Logo API.png";
+import primogems from "./images/LogoPrimogemsMP.png";
+import brand from "./images/Brand.png";
+import profile1 from "./images/pibi.jpg";
+import profile2 from "./images/mikel.jpg";
+import profile3 from "./images/citra.jpg";
+import profile4 from "./images/palen.jpg";
+import insta from "./images/instagram.png";
+import cari from "./images/search.png";
+import taptap from "./images/LogoPrimogems.png";
 import {
   Card,
   Button,
@@ -52,6 +59,7 @@ export default function App() {
   const [favoriteAlbums, setFavoriteAlbums] = useState([]); // Fitur Favorite
   const [favoriteTracks, setFavoriteTracks] = useState([]); // Fitur Favorite
   const [showFavorites, setShowFavorites] = useState(false); // Fitur Favorite
+  const [showAboutUs, setShowAboutUs] = useState(false); //Fitur About Us
 
   // Interaksi dengan API
   useEffect(() => {
@@ -229,7 +237,7 @@ export default function App() {
   // Pop up window untuk fitur favorite
   const FavoritesModal = () => {
     return (
-      <Modal show={showFavorites} onHide={() => setShowFavorites(false)}>
+      <Modal show={showFavorites} onHide={() => setShowFavorites(false)} className="modal-xl">
         <Modal.Header closeButton>
           <Modal.Title>Favorites</Modal.Title>
         </Modal.Header>
@@ -279,21 +287,24 @@ export default function App() {
     slidesToScroll: 5
   };
 
-  // Kembalikan hasil (untuk kemudahan membaca, mikel sudah membagi ke beberapa bagian)
+  // Kembalikan hasil
   return (
     <div className="App">
       {/* Navigation Bar Section */}
-      <Navbar bg="light" expand="lg" className="justify-content-end">
+      <Navbar
+        className="navbar navbar-dark bg-dark justify-content-end"
+        expand="lg"
+      >
         <Navbar.Brand>
-          <Image src="#" height="30" alt="Logo" />
+          <Image className="logo" src={primogems} height="50" alt="Logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#about">About</Nav.Link>
+            <Nav.Link href="#home"><h5>Home</h5></Nav.Link>
+            <Nav.Link onClick={() => setShowAboutUs(true)}><h5>About</h5></Nav.Link>
             <Nav.Link onClick={() => setShowFavorites(!showFavorites)}>
-              Favorites ({favoriteAlbums.length + favoriteTracks.length})
+              <h7>Favorites </h7>({favoriteAlbums.length + favoriteTracks.length})
             </Nav.Link>
             {showFavorites && (
               <FavoritesModal
@@ -304,27 +315,25 @@ export default function App() {
             )}
             {favoriteAlbums.map((album, index) => (
               <Nav.Link key={index}>
-                {album.name} (Album)
                 <Button
                   variant="link"
                   onClick={() =>
                     removeFromFavorites({ type: "album", item: album })
                   }
                 >
-                  Remove
+                  
                 </Button>
               </Nav.Link>
             ))}
             {favoriteTracks.map((track, index) => (
               <Nav.Link key={index}>
-                {track.name} (Track)
                 <Button
                   variant="link"
                   onClick={() =>
                     removeFromFavorites({ type: "track", item: track })
                   }
                 >
-                  Remove
+                  
                 </Button>
               </Nav.Link>
             ))}
@@ -332,38 +341,44 @@ export default function App() {
         </Navbar.Collapse>
       </Navbar>
 
+      <Image className="brand" src={brand} height="85" alt="PrimogemsMP" />
+
       {/* Search Section */}
       <Container>
-        <input
-          placeholder="Search by Artist"
-          type="input"
-          onChange={(event) => {
-            setSearchingInput(event.target.value);
-          }}
-          onKeyPress={(event) => {
-            if (event.key === "Enter" && searchingInput !== "") {
-              // Jika sudah tekan enter, lakukan searching sesuai input
-              search();
-            }
-          }}
-        />
+        <div class="search">
+          <div class="icon"></div>
+          <input
+            placeholder="Search by Artist"
+            type="input"
+            onChange={(event) => {
+              setSearchingInput(event.target.value);
+            }}
+            onKeyPress={(event) => {
+              if (event.key === "Enter" && searchingInput !== "") {
+                // Jika sudah tekan enter, lakukan searching sesuai input
+                search();
+              }
+            }}
+          />
 
-        <Button
-          onClick={() => {
-            if (searchingInput !== "") {
-              search();
-            }
-          }}
-        >
-          Search
-        </Button>
+          <button
+            className="search-btn"
+            onClick={() => {
+              if (searchingInput !== "") {
+                search();
+              }
+            }}
+          >
+            <img src={cari} alt="Search" />
+          </button>
+        </div>
       </Container>
 
       {/* Albums Section */}
       <Container>
         <Row className="mx-2">
           <Col>
-            <h1>Albums</h1>
+            <h1 class="mt-4">Albums</h1>
             <div className="slider-container">
               {albums.length > 0 ? (
                 albums.map((album, i) => (
@@ -392,7 +407,7 @@ export default function App() {
       <Container>
         <Row className="mx-2">
           <Col>
-            <h1>Tracks</h1>
+            <h1 class="mt-4">Tracks</h1>
             <div className="slider-container">
               {tracks.length > 0 ? (
                 tracks.map((track, i) => (
@@ -417,6 +432,87 @@ export default function App() {
         </Row>
       </Container>
 
+      {/* Footer */}
+      <div
+        class="page-footer row text-white border bg-dark p-4 mt-5 justify-content-end"
+        expand="lg"
+      >
+        <p class="col-12 col-md text-md-start ms-md-2 text-center">
+          Ⓒ Primogems Project 2023. All Rights Reserved.
+        </p>
+        <div class="col-12 col-md float-end">
+          <p>Made by using</p>
+
+          <Image
+            class="float-md-end"
+            src={spotifyAPI}
+            height="30"
+            alt="Spotify"
+          />
+        </div>
+      </div>
+
+      <Modal show={showAboutUs} onHide={() => setShowAboutUs(false)} className="modal-xl">
+      <Modal.Header closeButton>
+          <Modal.Title>About Us</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="profile-container">
+            <div className="profile">
+              <img src={profile1}alt="Vincent Bryan" />
+              <div className="profile-info">
+                <h3>Vincent Bryan</h3>
+                <p>Bertugas sebagai coders, design, dan hosting web.</p>
+              </div>
+              <button className="profile-button" onClick={() => window.location.href = "https://www.instagram.com/iuxtzy.vb/"}>
+                <img src={insta} alt="Instagram" />
+              </button>
+            </div>
+            <div className="profile">
+              <img src={profile2} alt="Michael" />
+              <div className="profile-info">
+                <h3>Vincent Bryan</h3>
+                <p>Bertugas sebagai coders, design, dan hosting web.</p>
+              </div>
+              <button className="profile-button" onClick={() => window.location.href = "https://www.instagram.com/hartoyo_michael/"}>
+                <img src={insta} alt="Instagram" />
+              </button>
+            </div>
+            <div className="profile">
+              <img src={profile3} alt="Citra Nandariani I." />
+              <div className="profile-info">
+                <h3>Vincent Bryan</h3>
+                <p>Bertugas sebagai coders, design, dan hosting web.</p>
+              </div>
+              <button className="profile-button" onClick={() => window.location.href = "https://www.instagram.com/cicit_kyo/"}>
+                <img src={insta} alt="Instagram" />
+              </button>
+            </div>
+            <div className="profile">
+              <img src={profile4} alt="Valent Joseph S." />
+              <div className="profile-info">
+                <h3>Vincent Bryan</h3>
+                <p>Bertugas sebagai coders, design, dan hosting web.</p>
+              </div>
+              <button className="profile-button" onClick={() => window.location.href = "https://www.instagram.com/valentjoseph.11/"}>
+                <img src={insta} alt="Instagram" />
+              </button>
+            </div>
+            <div className="product">
+              <h4>Our Other Products</h4>
+                <button className="products" onClick={() => (window.location.href = "https://primogems-taptap.netlify.app/")}>
+                  <img src={taptap} alt="Taptap Master" />
+                </button>
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowAboutUs(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       {/* Pop up window Albums ketika ditekan user */}
       <Modal show={selectedAlbum !== null} onHide={closeModal}>
         <Modal.Header closeButton>
@@ -425,13 +521,15 @@ export default function App() {
         <Modal.Body>
           {selectedAlbum && (
             <div>
-              <h2>Album Name: {selectedAlbum.name}</h2>
-              <h2>Release Date: {selectedAlbum.release_date}</h2>
-              <h2>Tracks Total: {selectedAlbum.total_tracks}</h2>
-              <h2>Artist: {selectedAlbum.artists[0].name}</h2>
-              {/* Kalau mau, bisa tambahkan lebih banyak informasi mengenai albums di sini */}
-              {/* Untuk format data, bisa dilihat di spotify api web documentation */}
+              <Card>
+                <Card.Img src={selectedAlbum.images[0].url} />
+              </Card>
+              <h4><b>Album Name: </b></h4><h5>{selectedAlbum.name}</h5>
+              <h4><b>Release Date: </b></h4><h5>{selectedAlbum.release_date}</h5>
+              <h4><b>Tracks Total: </b></h4><h5>{selectedAlbum.total_tracks}</h5>
+              <h4><b>Artist: </b></h4><h5>{selectedAlbum.artists[0].name}</h5>
               <Button
+                className="mt-2"
                 variant="primary"
                 onClick={() =>
                   addToFavorites({ type: "album", item: selectedAlbum })
@@ -454,20 +552,22 @@ export default function App() {
       </Modal>
 
       {/* Pop up window tracks ketika ditekan oleh user */}
-      <Modal show={selectedTrack !== null} onHide={closeModal}>
+      <Modal show={selectedTrack !== null} onHide={closeModal} >
         <Modal.Header closeButton>
           <Modal.Title>Track Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {selectedTrack && (
             <div>
-              <h2>Track Name: {selectedTrack.name}</h2>
-              <h2>Track Album: {selectedTrack.album.name}</h2>
-              <h2>Release Date: {selectedTrack.album.release_date}</h2>
-              <h2>Artist: {selectedTrack.artists[0].name}</h2>
-              {/* Kalau mau, bisa tambahkan lebih banyak informasi mengenai tracks di sini */}
-              {/* Untuk format data, bisa dilihat di spotify api web documentation */}
+              <Card>
+                <Card.Img src={selectedTrack.album.images[0].url} />
+              </Card>
+              <h4><b>Track Name: </b></h4><h5>{selectedTrack.name}</h5>
+              <h4><b>Track Album: </b></h4><h5>{selectedTrack.album.name}</h5>
+              <h4><b>Release Date: </b></h4><h5>{selectedTrack.album.release_date}</h5>
+              <h4><b>Artist: </b></h4><h5>{selectedTrack.artists[0].name}</h5>
               <Button
+                className="mt-2"
                 variant="primary"
                 onClick={() =>
                   addToFavorites({ type: "track", item: selectedTrack })
