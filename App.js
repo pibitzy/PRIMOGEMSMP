@@ -471,7 +471,7 @@ export default function App() {
             <div className="profile">
               <img src={profile2} alt="Michael" />
               <div className="profile-info">
-                <h3>Vincent Bryan</h3>
+                <h3>Michael</h3>
                 <p>Bertugas sebagai coders, design, dan hosting web.</p>
               </div>
               <button className="profile-button" onClick={() => window.location.href = "https://www.instagram.com/hartoyo_michael/"}>
@@ -481,7 +481,7 @@ export default function App() {
             <div className="profile">
               <img src={profile3} alt="Citra Nandariani I." />
               <div className="profile-info">
-                <h3>Vincent Bryan</h3>
+                <h3>Citra Nandariani I.</h3>
                 <p>Bertugas sebagai coders, design, dan hosting web.</p>
               </div>
               <button className="profile-button" onClick={() => window.location.href = "https://www.instagram.com/cicit_kyo/"}>
@@ -491,7 +491,7 @@ export default function App() {
             <div className="profile">
               <img src={profile4} alt="Valent Joseph S." />
               <div className="profile-info">
-                <h3>Vincent Bryan</h3>
+                <h3>Valent Joseph S.</h3>
                 <p>Bertugas sebagai coders, design, dan hosting web.</p>
               </div>
               <button className="profile-button" onClick={() => window.location.href = "https://www.instagram.com/valentjoseph.11/"}>
