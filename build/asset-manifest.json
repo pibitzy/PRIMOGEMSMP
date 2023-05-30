@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1ffc0006.css",
+    "main.js": "/static/js/main.44f219b9.js",
+    "static/media/zh-cn.ttf": "/static/media/zh-cn.54a8212866e6ec1b1003.ttf",
+    "static/media/mikel.jpg": "/static/media/mikel.5262492fbd5a64815ba2.jpg",
+    "static/media/palen.jpg": "/static/media/palen.4a2f6e9708508663dbae.jpg",
+    "static/media/citra.jpg": "/static/media/citra.192a3d6cc21c3f3f76b7.jpg",
+    "static/media/pibi.jpg": "/static/media/pibi.0aa83474aabe9e82f3bc.jpg",
+    "static/media/Brand.png": "/static/media/Brand.6689ea009cdd08d78f48.png",
+    "static/media/Logo API.png": "/static/media/Logo API.e9f5dc899d6e5e480b30.png",
+    "static/media/LogoPrimogemsMP.png": "/static/media/LogoPrimogemsMP.86ea50c4f7f74ca8cd2a.png",
+    "static/media/instagram.png": "/static/media/instagram.67e4e49c7b7ef3441a4c.png",
+    "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/index.html",
+    "main.1ffc0006.css.map": "/static/css/main.1ffc0006.css.map",
+    "main.44f219b9.js.map": "/static/js/main.44f219b9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1ffc0006.css",
+    "static/js/main.44f219b9.js"
+  ]
+}
