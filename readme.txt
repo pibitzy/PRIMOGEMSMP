@@ -14,3 +14,7 @@ Fitur-fitur pada Web:
 4. Album and Track
 5. About Us
 6. Remove
+
+Note:
+Directory public = index.html dan LogoPrimogemsMP.ico
+Directory src = sisanya
