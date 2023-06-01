@@ -1,5 +1,6 @@
 // Import fitur-fitur penting
 import { useEffect, useState } from "react";
+import Slider from "react-slick";
 import "./index.js";
 import "./styles.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -24,29 +25,12 @@ import {
   Nav,
   Image
 } from "react-bootstrap";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 // Client ID dan Client Secret
 const clientID = "eeef045c75e5488f8543305bc2be05f4";
 const clientSecret = "29882680ac4c4d0fb9ae342280a7101c";
-
-/*
-PERHATIAN!!!
-Beberapa dependencies yang harus diinstall adalah sebagai berikut:
-1. Bootstrap
-2. font-awesome
-3. loader-utils
-4. react
-5. react-bootstrap
-6. react-dom
-7. react-scripts
-8. react-slick
-9. slick-carousel
-
-Program dapat mengalami gangguan jika tidak menginstall dependencies tersebut
-*/
 
 export default function App() {
   // Hooks
@@ -242,32 +226,40 @@ export default function App() {
           <Modal.Title>Favorites</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {favoriteAlbums.map((album, index) => (
-            <Nav.Link key={index}>
-              {album.name} (Album)
-              <Button
-                variant="link"
-                onClick={() =>
-                  removeFromFavorites({ type: "album", item: album })
-                }
-              >
-                Remove
-              </Button>
-            </Nav.Link>
-          ))}
-          {favoriteTracks.map((track, index) => (
-            <Nav.Link key={index}>
-              {track.name} (Track)
-              <Button
-                variant="link"
-                onClick={() =>
-                  removeFromFavorites({ type: "track", item: track })
-                }
-              >
-                Remove
-              </Button>
-            </Nav.Link>
-          ))}
+          <div className="favorites-container">
+            <div className="category">
+              <h3>Albums</h3>
+              {favoriteAlbums.map((album, index) => (
+                <div key={index} className="favorite-item">
+                  <img src={album.images[0].url} alt={album.name} />
+                  <h4>{album.name}</h4>
+                  <p>{album.description}</p>
+                  <Button
+                    type="primary"
+                    onClick={() => removeFromFavorites({ type: "album", item: album })}
+                  >
+                    Remove
+                  </Button>
+                </div>
+              ))}
+            </div>
+            <div className="category">
+              <h3>Tracks</h3>
+              {favoriteTracks.map((track, index) => (
+                <div key={index} className="favorite-item">
+                  <img src={track.album.images[0].url} alt={track.name} />
+                  <h4>{track.name}</h4>
+                  <p>{track.description}</p>
+                  <Button
+                    type="primary"
+                    onClick={() => removeFromFavorites({ type: "track", item: track })}
+                  >
+                    Remove
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowFavorites(false)}>
@@ -301,10 +293,10 @@ export default function App() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-5 align-middle">
-            <Nav.Link onClick={handleHomeClick}><h5>Home</h5></Nav.Link>
-            <Nav.Link onClick={() => setShowAboutUs(true)}><h5>About Us</h5></Nav.Link>
-            <Nav.Link onClick={() => setShowFavorites(!showFavorites)}><h7>Favorites </h7>({favoriteAlbums.length + favoriteTracks.length})</Nav.Link>
+          <Nav className="ml-5 align-items-center">
+            <Nav.Link onClick={handleHomeClick}><h6>Home</h6></Nav.Link>
+            <Nav.Link onClick={() => setShowAboutUs(true)}><h6>About Us</h6></Nav.Link>
+            <Nav.Link onClick={() => setShowFavorites(!showFavorites)}><h6>Favorites </h6>({favoriteAlbums.length + favoriteTracks.length})</Nav.Link>
             {showFavorites && (
               <FavoritesModal
                 favoriteAlbums={favoriteAlbums}
@@ -462,8 +454,8 @@ export default function App() {
             <div className="profile">
               <img src={profile2} alt="Michael" />
               <div className="profile-info">
-                <h3>Vincent Bryan</h3>
-                <p>Bertugas sebagai coders, design, dan hosting web.</p>
+                <h3>Michael</h3>
+                <p>Bertugas sebagai coders, ide dan design.</p>
               </div>
               <button className="profile-button" onClick={() => window.location.href = "https://www.instagram.com/hartoyo_michael/"}>
                 <img src={insta} alt="Instagram" />
@@ -472,8 +464,8 @@ export default function App() {
             <div className="profile">
               <img src={profile3} alt="Citra Nandariani I." />
               <div className="profile-info">
-                <h3>Vincent Bryan</h3>
-                <p>Bertugas sebagai coders, design, dan hosting web.</p>
+                <h3>Citra Nandariani. I.</h3>
+                <p>Bertugas sebagai coders, ide dan design.</p>
               </div>
               <button className="profile-button" onClick={() => window.location.href = "https://www.instagram.com/cicit_kyo/"}>
                 <img src={insta} alt="Instagram" />
@@ -482,8 +474,8 @@ export default function App() {
             <div className="profile">
               <img src={profile4} alt="Valent Joseph S." />
               <div className="profile-info">
-                <h3>Vincent Bryan</h3>
-                <p>Bertugas sebagai coders, design, dan hosting web.</p>
+                <h3>Valent Joseph. S.</h3>
+                <p>Bertugas sebagai coders, ide dan design.</p>
               </div>
               <button className="profile-button" onClick={() => window.location.href = "https://www.instagram.com/valentjoseph.11/"}>
                 <img src={insta} alt="Instagram" />
